@@ -21,7 +21,7 @@ print(htmlDoc)
 
 # cookies = { "loggedin" : "1" }
 
-print(requests.session().cookies['loggedin'])
+# print(requests.session().cookies['loggedin'])
 
 try:
     with open('C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index.html', 'w') as htmlContent:
