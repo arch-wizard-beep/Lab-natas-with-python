@@ -13,8 +13,8 @@ password = fileContent.readlines()[3][7:39]
 url = f'http://{userName}.natas.labs.overthewire.org'
 
 # use headers to redirect  
-header =  {"Referer" : "http://natas5.natas.labs.overthewire.org"}
-response = requests.get(url, auth = (userName, password), headers = header)
+headers =  { "Referer" : "http://natas5.natas.labs.overthewire.org/" }
+response = requests.get(url, auth = (userName, password), headers = headers)
 htmlDoc = response.text
 
 print(htmlDoc)
