@@ -1,4 +1,5 @@
 import requests
+import re
 
 userName = 'natas5'
 fileContent = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt') 
@@ -19,7 +20,8 @@ print(response.headers)
 
 print("\n")
 
-print(htmlDoc)
+print(re.findall("password (.*)", htmlDoc))
+# print(htmlDoc)
 
 try:
     with open('C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index.html', 'w') as htmlContent:
