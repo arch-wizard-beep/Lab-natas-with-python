@@ -4,7 +4,7 @@ username = 'natas3'
 content = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt')
 password = content.readlines()[2][7:39]
 
-print(password)
+# print(password)
 
 # url = f'http://{username}.natas.labs.overthewire.org/robots.txt'
 url = f'http://{username}.natas.labs.overthewire.org/s3cr3t/users.txt'

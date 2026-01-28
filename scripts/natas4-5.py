@@ -1,4 +1,5 @@
 import requests
+import re
 
 # i = input("Enter the Level number of natas: ")
 # userName = f'natas{i}'
@@ -17,7 +18,8 @@ headers =  { "Referer" : "http://natas5.natas.labs.overthewire.org/" }
 response = requests.get(url, auth = (userName, password), headers = headers)
 htmlDoc = response.text
 
-print(htmlDoc)
+# print(htmlDoc)
+print(re.findall('password (.*)', htmlDoc))
 
 # cookies = { "loggedin" : "1" }
 
