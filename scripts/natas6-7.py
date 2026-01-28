@@ -1,6 +1,6 @@
 import requests
 import html
-# import re
+import re
 
 userName = 'natas6'
 url = f'http://{userName}.natas.labs.overthewire.org/'
@@ -35,6 +35,8 @@ data = {
 }
 response = requests.post( url , auth = ( userName, password), data = data)
 htmlDoc = response.text
+
+print(re.findall("password (.*)", htmlDoc))
 
 try:
     with open('C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index.html', 'w') as htmlContent:
