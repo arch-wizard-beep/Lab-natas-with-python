@@ -32,4 +32,4 @@ try:
 except IOError as e:
     print(f"Error appear{e}")
 
-# run the command and the password will be appeared in index.html
+# run the command and the password will be appear in index.html
