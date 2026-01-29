@@ -3,7 +3,7 @@ import re
 
 userName = 'natas5'
 fileContent = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt') 
-password = fileContent.readlines()[4][7:39] 
+password = fileContent.readlines()[4][8:40] 
 print(f"The password of natas5 is {password}\n")
 
 url = f'http://{userName}.natas.labs.overthewire.org'

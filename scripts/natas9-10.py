@@ -4,7 +4,7 @@ import re
 userName = 'natas9'
 url = f'http://{userName}.natas.labs.overthewire.org/'
 fileContent = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt')
-password = fileContent.readlines()[8][7:39]
+password = fileContent.readlines()[8][8:40]
 
 response = requests.get(url, auth = (userName, password))
 htmlDoc = response.text

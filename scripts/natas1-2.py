@@ -3,7 +3,7 @@ import re
 
 username = 'natas1'
 content = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt')
-password = content.readline(-1)[7:39]
+password = content.readline(-1)[8:40]
 print(f"The Password of natas1 is {password}")
 # print(password)
 

@@ -8,7 +8,7 @@ userName = 'natas4'
 fileContent = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt')
 
 # passwordIndex = int(i) - 1
-password = fileContent.readlines()[3][7:39]
+password = fileContent.readlines()[3][8:40]
 # print(password)
 
 url = f'http://{userName}.natas.labs.overthewire.org'

@@ -2,7 +2,7 @@ import requests
 
 username = 'natas3'
 content = open('C:\\Users\\niroj\\Documents\\Natas\\password.txt')
-password = content.readlines()[2][7:39]
+password = content.readlines()[2][8:40]
 
 # print(password)
 
