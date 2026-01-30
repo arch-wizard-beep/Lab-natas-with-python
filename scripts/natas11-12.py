@@ -2,9 +2,6 @@ import requests
 import base64
 import re
 import binascii
-#----------------------------------------#
-# Don't follow along, itn't the solution #
-#----------------------------------------#
 
 
 userName = 'natas11'
@@ -56,16 +53,7 @@ cipherText = sessionCookies['data'].replace('%3D', '==')
 
 print(f'(+) Cookies cipher text {cipherText} type {type(cipherText)}')
 
-
-def Unknown_2_Byte (unknownText):
-    decryptText = base64.b64decode(unknownText)
-    # hexEncodedText = decryptText.encode('utf-8').hex()
-    # # return hexEncodedText
-    # byteCode = bytes.fromhex(hexEncodedText)
-    return decryptText
-
-
-cipher = Unknown_2_Byte(cipherText)
+cipher = base64.b64decode(cipherText)
 print('(+) The xor cipher text is extracted successfully: ',cipher)
 
 # form the $defaultdata of php source 
@@ -99,13 +87,15 @@ def Repeated_Substring(key):
     return key
     
 substring = Repeated_Substring(defaultKey)
-print(f'(+) The KEY=>[ {substring} ] has been extracted successfully.')
+print(f'(+) The KEY=>[{substring}] has been extracted successfully.')
 # Goodness, finally I have actual😮‍💨 key 
 
 
-defaultKey = defaultKey.encode()
-newDefaultData = b'{"showpassword":"yes","bgcolor":"#ffffff"}'
+defaultKey = substring.encode('utf-8')
+newDefaultData = '{"showpassword":"yes","bgcolor":"#ffffff"}'
+newDefaultData = newDefaultData.encode('utf-8')
 
+print(defaultKey, newDefaultData)
 
 def New_XOR_Operation(defaultData, cipher):
     key = bytearray()
@@ -116,12 +106,11 @@ def New_XOR_Operation(defaultData, cipher):
     return key
 
 
-
 newCipher = New_XOR_Operation(newDefaultData, defaultKey)
-print(f'(+) The XOR Operation is performed successfully\n\n(*) The Encrypted cookie has been extracted : {newCipher.encode('utf-8')} ')
+print(f'(+) The XOR Operation is performed successfully\n(*) The Encrypted cookie has been extracted : {newCipher} ')
 
 def XOR_2_Cookie(inlet):
-    binaryForm = inlet.encode('utf-8')
+    binaryForm = inlet.encode()
     # hexForm = binaryForm.hex().encode()
     base64Form = base64.b64encode(binaryForm).decode('utf-8')
     # cookieConversion = base64Form.replace('=','%3D')
@@ -147,3 +136,6 @@ try:
         print('(+) final Documentation is collected!')
 except IOError as e:
     print(f"(-) Unexpectedly: {e}")
+
+solution = re.findall('password(.*)',htmlDoc)
+print(solution)
