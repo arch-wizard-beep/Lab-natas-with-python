@@ -36,7 +36,7 @@ print(base64Decode)
 
 plainText = base64Decode.decode() 
 print(plainText)
-# ---------------All Decryption is done ----------------
+# --------------- Decryption is done ----------------
 
 
 newPassword = plainText
