@@ -22,7 +22,7 @@ htmlDoc = response.text
 sessionCookies = requests.Session().get(url, auth=(userName, password))
 sessionCookies = sessionCookies.cookies.get_dict()
 
-print('[*] session cookies: ',sessionCookies)
+print(f'(*) session cookies: {sessionCookies}\n')
 
 try:
     with open("C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\index.html", 'w') as htmlContain:
@@ -104,7 +104,7 @@ print(f'(+) The KEY=>[ {substring} ] has been extracted successfully.')
 
 
 defaultKey = defaultKey.encode()
-newDefaultData = b'{"showpassword":"no","bgcolor":"#ffffff"}'
+newDefaultData = b'{"showpassword":"yes","bgcolor":"#ffffff"}'
 
 
 def New_XOR_Operation(defaultData, cipher):
@@ -118,23 +118,32 @@ def New_XOR_Operation(defaultData, cipher):
 
 
 newCipher = New_XOR_Operation(newDefaultData, defaultKey)
-print(f'(+) The XOR Operation is performed successfully\n(+) The Encrypted cookie:  {newCipher} ')
+print(f'(+) The XOR Operation is performed successfully\n\n(*) The Encrypted cookie has been extracted : {newCipher.encode('utf-8')} ')
 
 def XOR_2_Cookie(inlet):
-    binaryForm = inlet.encode()
-    base64Form = base64.b64encode(binaryForm).decode()
-    cookieConversion = base64Form.replace('=','%3D')
-    return cookieConversion
+    binaryForm = inlet.encode('utf-8')
+    # hexForm = binaryForm.hex().encode()
+    base64Form = base64.b64encode(binaryForm).decode('utf-8')
+    # cookieConversion = base64Form.replace('=','%3D')
+    # return cookieConversion
+    return base64Form
+    # return hexForm
 
 cookie = XOR_2_Cookie(newCipher)
-print(f'\n(+) Cipher is converted into cookie: {cookie}')
+print(f'\n(+) Encrypted cookie is encoded with base64: {cookie}')
 
 # ------------------------------ Done ----------------------------------
 
 cookie = {
-     'data': 'HmYkBwozJw4WNyAAFyB1VUcqOE1JZjUIBis7ABdmbU1GIjEJAyIxTRg'
+     'data': cookie
  }
 
-response = requests.post(url, auth = (userName, password), cookies=cookie)
+response = requests.get(url, auth = (userName, password), cookies = cookie)
 htmlDoc = response.text
-# print(htmlDoc)
+
+try:
+    with open('C:\\Users\\niroj\\Documents\\Natas\\scripts\\temp\\result.html', 'w') as htmlContain:
+        htmlContain.writelines(htmlDoc)
+        print('(+) final Documentation is collected!')
+except IOError as e:
+    print(f"(-) Unexpectedly: {e}")
