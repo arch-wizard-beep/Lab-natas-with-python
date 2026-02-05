@@ -39,7 +39,7 @@ correct_password = open(pathDirectory + "password.txt", 'r').readlines()[14][8:4
 allString = string.ascii_uppercase + string.ascii_lowercase + string.digits
 print(allString)
 
-natasPassword = list('hPkjKYviLQctEW33QmuXL6eDVfMW4sG')
+natasPassword = list()
 
 while (len(natasPassword) < 32):
     for character in allString:
